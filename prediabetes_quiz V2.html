@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>သင်၏ ဆီးချိုရောဂါဖြစ်နိုင်မှု စစ်ဆေးမှု</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+        .question {
+            margin-bottom: 10px;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="https://i.imgur.com/4xVpxFg.jpeg" alt="Logo" width="150">
+    </div>
+    <h2>သင်သည် ဆီးချိုရောဂါ ဖြစ်နိုင်ခြေ ရှိသလား?</h2>
+    <form id="quizForm">
+        <div class="question">
+            <label>၁။ သင့်အသက် ဘယ်နှစ်နှစ်ရှိပြီလဲ?</label><br>
+            <input type="radio" name="age" value="0"> ၄၀ နှစ်အောက် (၀ မှတ်) <br>
+            <input type="radio" name="age" value="1"> ၄၀-၄၉ နှစ် (၁ မှတ်) <br>
+            <input type="radio" name="age" value="2"> ၅၀-၅၉ နှစ် (၂ မှတ်) <br>
+            <input type="radio" name="age" value="3"> ၆၀ နှစ်နှင့်အထက် (၃ မှတ်)
+        </div>
+        
+        <div class="question">
+            <label>၂။ သင်သည် အမျိုးသား သို့မဟုတ် အမျိုးသမီး ဖြစ်ပါသလား?</label><br>
+            <input type="radio" name="gender" value="1"> အမျိုးသား (၁ မှတ်) <br>
+            <input type="radio" name="gender" value="0"> အမျိုးသမီး (၀ မှတ်)
+        </div>
+        
+        <div class="question">
+            <label>၃။ သင်အမျိုးသမီးဖြစ်လျှင်၊ ကိုယ်ဝန်ဆောင်စဉ်တွင် ဆီးချိုရောဂါ ခံစားဖူးပါသလား?</label><br>
+            <input type="radio" name="gestational" value="1"> ဟုတ်ကဲ့ (၁ မှတ်) <br>
+            <input type="radio" name="gestational" value="0"> မဟုတ်ပါ (၀ မှတ်)(အမျိုးသားဖြစ်လျှင် မဟုတ်ပါရွေးပါ)
+        </div>
+        
+        <div class="question">
+            <label>၄။ သင်၏ မိဘ၊ မောင်နှမများတွင် ဆီးချိုရောဂါရှိသူ ရှိပါသလား?</label><br>
+            <input type="radio" name="family" value="1"> ဟုတ်ကဲ့ (၁ မှတ်) <br>
+            <input type="radio" name="family" value="0"> မဟုတ်ပါ (၀ မှတ်)
+        </div>
+        
+        <div class="question">
+            <label>၅။ သင့်ကို သွေးတိုးရောဂါ ခံစား ဖူးပါသလား?</label><br>
+            <input type="radio" name="bp" value="1"> ဟုတ်ကဲ့ (၁ မှတ်) <br>
+            <input type="radio" name="bp" value="0"> မဟုတ်ပါ (၀ မှတ်)
+        </div>
+        
+        <div class="question">
+            <label>၆။ သင် ခန္ဓာကိုယ်လက်လှုပ်ရှားလေ့ရှိပါသလား?</label><br>
+            <input type="radio" name="active" value="0"> ဟုတ်ကဲ့ ကိုယ်လက်လှုပ်ရှားမှုများသည် (၀ မှတ်) <br>
+            <input type="radio" name="active" value="1"> မဟုတ်ပါ ကိုယ်လက်လှုပ်ရှားမှုနည်းသည် (၁ မှတ်)
+        </div>
+        
+        <div class="question">
+            <label>၇။ သင့်ကိုယ်အလေးချိန် နှင့် အရပ်ဖော်ပြပါ:</label><br>
+            ကိုယ်အလေးချိန် (ပေါင်): <input type="number" id="weight" min="50" max="500"><br>
+            အရပ် (ပေ): <input type="number" id="heightFeet" min="1" max="8"> 
+            အရပ် (လက်မ): <input type="number" id="heightInches" min="0" max="11">
+        </div>
+        
+        <button type="button" onclick="calculateRisk()">အနီးစပ်ဆုံး ရလဒ် ကြည့်ရန်</button>
+    </form>
+    
+    <div class="result" id="result"></div>
+    
+    <script>
+        function calculateRisk() {
+            let form = document.forms["quizForm"];
+            let totalScore = 0;
+            let elements = form.elements;
+            
+            for (let i = 0; i < elements.length; i++) {
+                if (elements[i].type === "radio" && elements[i].checked) {
+                    totalScore += parseInt(elements[i].value);
+                }
+            }
+            
+            let weight = parseFloat(document.getElementById("weight").value);
+            let heightFeet = parseFloat(document.getElementById("heightFeet").value);
+            let heightInches = parseFloat(document.getElementById("heightInches").value);
+            let heightTotalInches = (heightFeet * 12) + heightInches;
+            
+            if (!isNaN(weight) && !isNaN(heightTotalInches) && heightTotalInches > 0) {
+                let bmi = (weight / (heightTotalInches * heightTotalInches)) * 703;
+                if (bmi >= 30) {
+                    totalScore += 3;
+                } else if (bmi >= 25) {
+                    totalScore += 2;
+                } else if (bmi >= 23) {
+                    totalScore += 1;
+                }
+            }
+            
+            let resultText = "သင်၏ မှတ်ချက်စုစုပေါင်း: " + totalScore + "<br>";
+            resultText += (totalScore >= 5) ? "သင်သည် ဆီးချိုရောဂါဖြစ်နိုင်ခြေရှိပါသည်။ ကျန်းမာရေးပညာရှင်နှင့် တိုင်ပင်ရန် သင့်တော်ပါသည်။" : "သင့်ရောဂါဖြစ်နိုင်မှုနည်းပါသည်။ သို့သော် ကျန်းမာရေးသန်စွမ်းမှုကို ထိန်းသိမ်းရန် လိုအပ်ပါသည်။";
+            
+            document.getElementById("result").innerHTML = resultText;
+        }
+    </script>
+</body>
+</html>
