@@ -75,12 +75,33 @@
             အရပ် (လက်မ): <input type="number" id="heightInches" min="0" max="11">
         </div>
         
-        <button type="button" onclick="calculateRisk()">အနီးစပ်ဆုံး ရလဒ် ကြည့်ရန်</button>
+        <button type="button" onclick="validateAndCalculate()">အနီးစပ်ဆုံး ရလဒ် ကြည့်ရန်</button>
     </form>
     
     <div class="result" id="result"></div>
     
     <script>
+        function validateAndCalculate() {
+    const requiredRadioGroups = ["age", "gender", "gestational", "family", "bp", "active"];
+    
+    for (let name of requiredRadioGroups) {
+        if (!document.querySelector(`input[name='${name}']:checked`)) {
+            alert("ကျေးဇူးပြု၍ မေးခွန်းအားလုံးကို ဖြေပါ။");
+            return;
+        }
+    }
+
+    const weight = document.getElementById("weight").value;
+    const feet = document.getElementById("heightFeet").value;
+    const inches = document.getElementById("heightInches").value;
+
+    if (!weight || !feet || !inches) {
+        alert("ကျေးဇူးပြု၍ ကိုယ်အလေးချိန်နှင့် အရပ်ကို ဖြည့်ပါ။");
+        return;
+    }
+
+    calculateRisk();
+}
         function calculateRisk() {
             let form = document.forms["quizForm"];
             let totalScore = 0;
