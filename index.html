@@ -87,6 +87,38 @@
     <div class="result" id="result"></div>
     
     <script>
+        const weightTable = {
+    58: [119, 143, 191],
+    59: [124, 148, 198],
+    60: [128, 153, 204],
+    61: [132, 158, 211],
+    62: [136, 164, 218],
+    63: [141, 169, 225],
+    64: [145, 174, 232],
+    65: [150, 180, 240],
+    66: [155, 186, 247],
+    67: [159, 191, 255],
+    68: [164, 197, 262],
+    69: [169, 203, 270],
+    70: [174, 209, 278],
+    71: [179, 215, 286],
+    72: [184, 221, 294],
+    73: [189, 227, 302],
+    74: [194, 233, 311],
+    75: [200, 240, 319],
+    76: [205, 246, 328]
+};
+
+function getWeightPoints(heightInInches, weight) {
+    const thresholds = weightTable[heightInInches];
+    if (!thresholds) return 0;
+
+    if (weight < thresholds[0]) return 0;
+    if (weight <= thresholds[1]) return 1;
+    if (weight <= thresholds[2]) return 2;
+    return 3;
+}
+
         function validateAndCalculate() {
     const requiredRadioGroups = ["age", "gender", "gestational", "family", "bp", "active"];
 
@@ -142,21 +174,13 @@
                 }
             }
             
-            let weight = parseFloat(document.getElementById("weight").value);
-            let heightFeet = parseFloat(document.getElementById("heightFeet").value);
-            let heightInches = parseFloat(document.getElementById("heightInches").value);
-            let heightTotalInches = (heightFeet * 12) + heightInches;
-            
-            if (!isNaN(weight) && !isNaN(heightTotalInches) && heightTotalInches > 0) {
-                let bmi = (weight / (heightTotalInches * heightTotalInches)) * 703;
-                if (bmi >= 30) {
-                    totalScore += 3;
-                } else if (bmi >= 25) {
-                    totalScore += 2;
-                } else if (bmi >= 23) {
-                    totalScore += 1;
-                }
-            }
+            let weightVal = parseFloat(document.getElementById("weight").value);
+let heightFeet = parseInt(document.getElementById("heightFeet").value);
+let heightInches = parseInt(document.getElementById("heightInches").value);
+let totalInches = heightFeet * 12 + heightInches;
+
+totalScore += getWeightPoints(totalInches, weightVal);
+
             
             let resultText = "သင်၏ မှတ်ချက်စုစုပေါင်း: " + totalScore + "<br>";
             resultText += (totalScore >= 5) ? "သင်သည် ဆီးချိုရောဂါဖြစ်နိုင်ခြေရှိပါသည်။ ကျန်းမာရေးပညာရှင်နှင့် တိုင်ပင်ရန် သင့်တော်ပါသည်။" : "သင့်ရောဂါဖြစ်နိုင်မှုနည်းပါသည်။ သို့သော် ကျန်းမာရေးသန်စွမ်းမှုကို ထိန်းသိမ်းရန် လိုအပ်ပါသည်။";
