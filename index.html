@@ -83,10 +83,19 @@
     <script>
         function validateAndCalculate() {
     const requiredRadioGroups = ["age", "gender", "gestational", "family", "bp", "active"];
-    
+
     for (let name of requiredRadioGroups) {
-        if (!document.querySelector(`input[name='${name}']:checked`)) {
+        const checked = document.querySelector(`input[name='${name}']:checked`);
+        if (!checked) {
             alert("ကျေးဇူးပြု၍ မေးခွန်းအားလုံးကို ဖြေပါ။");
+
+            // 👉 Scroll to the first missing question
+            const firstInput = document.querySelector(`input[name='${name}']`);
+            if (firstInput) {
+                firstInput.scrollIntoView({ behavior: "smooth", block: "center" });
+                firstInput.focus();
+            }
+
             return;
         }
     }
@@ -97,11 +106,25 @@
 
     if (!weight || !feet || !inches) {
         alert("ကျေးဇူးပြု၍ ကိုယ်အလေးချိန်နှင့် အရပ်ကို ဖြည့်ပါ။");
+
+        // 👉 Scroll to the weight/height section and focus on first blank field
+        if (!weight) {
+            document.getElementById("weight").scrollIntoView({ behavior: "smooth", block: "center" });
+            document.getElementById("weight").focus();
+        } else if (!feet) {
+            document.getElementById("heightFeet").scrollIntoView({ behavior: "smooth", block: "center" });
+            document.getElementById("heightFeet").focus();
+        } else {
+            document.getElementById("heightInches").scrollIntoView({ behavior: "smooth", block: "center" });
+            document.getElementById("heightInches").focus();
+        }
+
         return;
     }
 
     calculateRisk();
 }
+
         function calculateRisk() {
             let form = document.forms["quizForm"];
             let totalScore = 0;
